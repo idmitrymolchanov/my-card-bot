@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = 'ru.vkbot.CardBot'
+dependencies {
+    compile 'com.vk.api:sdk:1.0.6'
+}
