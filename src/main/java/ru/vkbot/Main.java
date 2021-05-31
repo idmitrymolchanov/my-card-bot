@@ -3,19 +3,17 @@ package ru.vkbot;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.GroupActor;
+import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.messages.*;
-import com.vk.api.sdk.objects.photos.responses.GetMessagesUploadServerResponse;
-import com.vk.api.sdk.objects.photos.responses.MessageUploadResponse;
-import com.vk.api.sdk.objects.photos.responses.PhotoUploadResponse;
-import com.vk.api.sdk.objects.photos.responses.SaveMessagesPhotoResponse;
+import com.vk.api.sdk.objects.photos.responses.*;
 import com.vk.api.sdk.queries.messages.MessagesGetLongPollHistoryQuery;
 import com.vk.api.sdk.queries.photos.PhotosGetMessagesUploadServerQuery;
+import com.vk.api.sdk.queries.photos.PhotosGetQuery;
 import com.vk.api.sdk.queries.photos.PhotosSaveMessagesPhotoQuery;
 import com.vk.api.sdk.queries.upload.UploadPhotoMessageQuery;
-import com.vk.api.sdk.queries.upload.UploadPhotoQuery;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ public class Main {
     public static void main(String[] args) throws ClientException, ApiException, InterruptedException {
         TransportClient transportClient = new HttpTransportClient();
         VkApiClient vk = new VkApiClient(transportClient);
+
         Random random = new Random();
         Keyboard keyboard = new Keyboard();
         Keyboard keyboard2 = new Keyboard();
@@ -48,6 +47,12 @@ public class Main {
         startList.add(startLine1);
         keyboard2.setButtons(startList);
 
+        String billa = "photo-204424072_457239033";
+        String five_ka = "photo-204424072_457239034";
+        String lenta = "photo-204424072_457239035";
+        String perec = "photo-204424072_457239036";
+        String wwhhat = "photo-204424072_457239026";
+
         GroupActor actor = new GroupActor(, "");
         Integer ts = vk.messages().getLongPollServer(actor).execute().getTs();
         while (true) {
@@ -58,40 +63,77 @@ public class Main {
                     //System.out.println(message.toString());
                     try {
                         if(message.getText().equals("Лента")) {
-                            PhotosGetMessagesUploadServerQuery server = vk.photos().getMessagesUploadServer(actor);
-                            GetMessagesUploadServerResponse serverResponse = server.execute();
-                            File file = new File("C:\\Users\\Dmitry\\IdeaProjects\\bot\\src\\main\\resources\\img\\first.jpg");
+//                            String a = "C:\\Users\\Dmitry\\IdeaProjects\\bot\\src\\main\\resources\\img\\billa.jpg";
+//                            String b = "C:\\Users\\Dmitry\\IdeaProjects\\bot\\src\\main\\resources\\img\\five-ka.jpg";
+//                            String c = "C:\\Users\\Dmitry\\IdeaProjects\\bot\\src\\main\\resources\\img\\lenta.jpg";
+//                            String d = "C:\\Users\\Dmitry\\IdeaProjects\\bot\\src\\main\\resources\\img\\perec.jpg";
+//
+//                            uploadPhotoToBot(vk, actor, a);
+//                            uploadPhotoToBot(vk, actor, b);
+//                            uploadPhotoToBot(vk, actor, c);
+//                            uploadPhotoToBot(vk, actor, d);
 
-                            UploadPhotoMessageQuery photo = vk.upload().photoMessage(serverResponse.getUploadUrl().toString(), file);
-                            System.out.println(serverResponse.getUploadUrl() + " +=+=");
-                            MessageUploadResponse photoUploadResponse = photo.execute();
-
-                            PhotosSaveMessagesPhotoQuery a = vk.photos().saveMessagesPhoto(actor, photoUploadResponse.getPhoto()).server(photoUploadResponse.getServer()).hash(photoUploadResponse.getHash());
-                            System.out.println(photoUploadResponse.getPhoto() + " +=+=2");
-                            //System.out.println(a.executeAsString());
-                            List<SaveMessagesPhotoResponse> list = a.execute();
-                            String p = "photo" + list.get(0).getOwnerId()+"_"+list.get(0).getId();
-                            System.out.println(p);
-
-                            vk.messages().send(actor).message("Fuck you, okay?").attachment(p).userId(message.getFromId()).randomId(random.nextInt(10000)).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("Fuck you, okay?")
+                                    .attachment(lenta)
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .execute();
                         }
                         else if(message.getText().equals("Пятерочка")) {
-                            vk.messages().send(actor).message("your fucking Пятерочка").userId(message.getFromId()).randomId(random.nextInt(10000)).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("your fucking Пятерочка")
+                                    .attachment(five_ka)
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .execute();
                         }
                         else if(message.getText().equals("Билла")) {
-                            vk.messages().send(actor).message("your fucking Билла").userId(message.getFromId()).randomId(random.nextInt(10000)).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("your fucking Билла")
+                                    .attachment(billa)
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .execute();
                         }
                         else if(message.getText().equals("Перекресток")) {
-                            vk.messages().send(actor).message("your fucking Перекресток").userId(message.getFromId()).randomId(random.nextInt(10000)).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("your fucking Перекресток")
+                                    .attachment(perec)
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .execute();
                         }
                         else if(message.getText().equals("Начать")) {
-                            vk.messages().send(actor).message("start_m").userId(message.getFromId()).randomId(random.nextInt(10000)).keyboard(keyboard2).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("start_m")
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .keyboard(keyboard2)
+                                    .execute();
                         }
                         else if(message.getText().equals("Карты")) {
-                            vk.messages().send(actor).message("your fucking cards").userId(message.getFromId()).randomId(random.nextInt(10000)).keyboard(keyboard).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("your fucking cards, маленький любитель скидок :)")
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .keyboard(keyboard)
+                                    .execute();
                         }
                         else {
-                            vk.messages().send(actor).message("Whhat? Stupid shit").userId(message.getFromId()).randomId(random.nextInt(10000)).execute();
+                            vk.messages()
+                                    .send(actor)
+                                    .message("Whhat? Stupid shit")
+                                    .attachment(wwhhat)
+                                    .userId(message.getFromId())
+                                    .randomId(random.nextInt(10000))
+                                    .execute();
                         }
                     } catch (ApiException | ClientException e) { e.printStackTrace(); }
                 });
@@ -100,5 +142,36 @@ public class Main {
             ts = vk.messages().getLongPollServer(actor).execute().getTs();
             Thread.sleep(500);
         }
+    }
+
+    public static void uploadPhotoToBot(VkApiClient vk, GroupActor actor, String path) throws ClientException, ApiException {
+        PhotosGetMessagesUploadServerQuery server = vk.photos().getMessagesUploadServer(actor);
+        GetMessagesUploadServerResponse serverResponse = server.execute();
+        File file = new File(path);
+
+        UploadPhotoMessageQuery photo = vk.upload().photoMessage(serverResponse.getUploadUrl().toString(), file);
+        System.out.println(serverResponse.getUploadUrl() + " +=+=");
+        MessageUploadResponse photoUploadResponse = photo.execute();
+
+        PhotosSaveMessagesPhotoQuery a = vk.photos().saveMessagesPhoto(actor, photoUploadResponse.getPhoto()).server(photoUploadResponse.getServer()).hash(photoUploadResponse.getHash());
+        //System.out.println(photoUploadResponse.getPhoto() + " +=+=2");
+
+        List<SaveMessagesPhotoResponse> list = a.execute();
+
+        System.out.println("count: " + list.size() + " +++");
+
+        String p = "photo" + list.get(0).getOwnerId()+"_"+list.get(0).getId();
+
+        System.out.println(p + " " + file.getName());
+    }
+
+    public static void ooo(VkApiClient vk, GroupActor actor) throws ClientException, ApiException {
+        PhotosGetMessagesUploadServerQuery server = vk.photos().getMessagesUploadServer(actor);
+        GetMessagesUploadServerResponse serverResponse = server.execute();
+       // UserActor userActor = new UserActor(serverResponse.getUserId(), "");
+        PhotosGetQuery photosGetQuery = vk.photos().get(userActor).albumId(serverResponse.getAlbumId().toString());
+        GetResponse getResponse = photosGetQuery.execute();
+        System.out.println(getResponse.toPrettyString());
+
     }
 }
